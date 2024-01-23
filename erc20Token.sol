@@ -1,12 +1,9 @@
-// ----------------------------------------------------------------------------
-///Implements EIP20 token standard: https://github.com/ethereum/EIPs/blob/master/EIPS/eip-20.md
-// ----------------------------------------------------------------------------
-
-pragma solidity >=0.4.21 <0.6.0;
+// SPDX-License-Identifier: GPL-3.0
+pragma solidity >=0.8.2 <0.9.0;
 
 import "./erc20Interface.sol";
 
-contract ERC20Token is ERC20Interface {
+contract ERC20Token is IERC20 {
 
     uint256 constant private MAX_UINT256 = 2**256 - 1;
     mapping (address => uint256) public balances;
@@ -23,7 +20,7 @@ contract ERC20Token is ERC20Interface {
         string memory _tokenName,
         uint8 _decimalUnits,
         string memory _tokenSymbol
-    ) public {
+    ) {
         balances[msg.sender] = _initialAmount;               // The creator owns all initial tokens
         totSupply = _initialAmount;                        // Update total token supply
         name = _tokenName;                                   // Store the token name (used for display only)
@@ -42,11 +39,11 @@ contract ERC20Token is ERC20Interface {
 
     // Transfer tokens from one specified address to another specified address
     function transferFrom(address _from, address _to, uint256 _value) public returns (bool success) {
-        uint256 allowance = allowed[_from][msg.sender];
-        require(balances[_from] >= _value && allowance >= _value,"Insufficient allowed funds for transfer source.");
+        uint256 allowedAmount = allowed[_from][msg.sender];
+        require(balances[_from] >= _value && allowedAmount >= _value,"Insufficient allowed funds for transfer source.");
         balances[_to] += _value;
         balances[_from] -= _value;
-        if (allowance < MAX_UINT256) {
+        if (allowedAmount < MAX_UINT256) {
             allowed[_from][msg.sender] -= _value;
         }
         emit Transfer(_from, _to, _value); //solhint-disable-line indent, no-unused-vars
