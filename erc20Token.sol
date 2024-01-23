@@ -9,10 +9,10 @@ contract ERC20Token is IERC20 {
     mapping (address => uint256) public balances;
     mapping (address => mapping (address => uint256)) public allowed;
 
-    uint256 public totSupply;           // Total number of tokens
-    string public name;                   // Descriptive name (i.e. For Dummies Sample Token)
-    uint8 public decimals;                // How many decimals to use when displaying amounts
-    string public symbol;                 // Short identifier for token (i.e. FDT)
+    uint256 public totSupply; // Total number of tokens
+    string public name; // Descriptive name
+    uint8 public decimals; // How many decimals to use when displaying amounts
+    string public symbol; // Short identifier for token (i.e. FDT)
 
     // Create the new token and assign initial values, including initial amount
     constructor(
@@ -21,11 +21,11 @@ contract ERC20Token is IERC20 {
         uint8 _decimalUnits,
         string memory _tokenSymbol
     ) {
-        balances[msg.sender] = _initialAmount;               // The creator owns all initial tokens
-        totSupply = _initialAmount;                        // Update total token supply
-        name = _tokenName;                                   // Store the token name (used for display only)
-        decimals = _decimalUnits;                            // Store the number of decimals (used for display only)
-        symbol = _tokenSymbol;                               // Store the token symbol (used for display only)
+        balances[msg.sender] = _initialAmount; // The creator owns all initial tokens
+        totSupply = _initialAmount; // Update total token supply
+        name = _tokenName; // Store the token name (used for display only)
+        decimals = _decimalUnits; // Store the number of decimals (used for display only)
+        symbol = _tokenSymbol; // Store the token symbol (used for display only)
     }
 
     // Transfer tokens from msg.sender to a specified address
